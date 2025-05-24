@@ -1,17 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./src/utils/db.js";
+import connectDB from "./utils/db.js";
 
 // Routes
-import authRoutes from "./src/routes/auth.routes.js";
-import employeeRoutes from "./src/routes/employee.routes.js";
-import locationRoutes from "./src/routes/location.routes.js";
-import attendanceRoutes from "./src/routes/attendance.routes.js";
-import devRoutes from "./src/routes/dev.routes.js";
-import visitRoutes from "./src/routes/visit.routes.js"
+import authRoutes from "./routes/auth.routes.js";
+import employeeRoutes from "./routes/employee.routes.js";
+import locationRoutes from "./routes/location.routes.js";
+import attendanceRoutes from "./routes/attendance.routes.js";
+import devRoutes from "./routes/dev.routes.js";
+import visitRoutes from "./routes/visit.routes.js"
 // Middlewares
-import errorHandler from "./src/middlewares/error.middleware.js";
+import errorHandler from "./middlewares/error.middleware.js";
 
 // Config
 dotenv.config();
@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // server.js (add after DB connection)
-import "./src/jobs/attendanceScheduler.js";
+import "./jobs/attendanceScheduler.js";
 
 
 // Middlewares
