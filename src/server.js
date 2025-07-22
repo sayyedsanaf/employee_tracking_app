@@ -10,6 +10,7 @@ import locationRoutes from "./routes/location.routes.js";
 import attendanceRoutes from "./routes/attendance.routes.js";
 import devRoutes from "./routes/dev.routes.js";
 import visitRoutes from "./routes/visit.routes.js"
+
 // Middlewares
 import errorHandler from "./middlewares/error.middleware.js";
 
@@ -31,6 +32,12 @@ app.use(express.json()); // Parse JSON
 app.use(express.urlencoded({ extended: true })); // Parse form-data
 
 // Routes
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to the Employee Management App API",
+    });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/locations", locationRoutes);

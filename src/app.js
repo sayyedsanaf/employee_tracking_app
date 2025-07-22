@@ -30,6 +30,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to the Employee Management App API",
+    });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/locations", locationRoutes);
