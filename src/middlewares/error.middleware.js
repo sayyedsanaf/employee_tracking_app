@@ -1,3 +1,4 @@
+import multer from "multer";
 import { ZodError } from "zod";
 
 const errorHandler = (err, req, res, next) => {
@@ -15,6 +16,13 @@ const errorHandler = (err, req, res, next) => {
       errors: formattedErrors,
     });
   }
+  // Handle Multer file upload errors
+   if (err instanceof multer.MulterError && err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return res.status(400).json({
+        error: `Unexpected file field: ${err.field}.`,
+        suggestion: 'Please check the field name in the form data',
+      });
+    }
 
   // Handle other known errors (e.g., custom error classes)
   if (err.statusCode && err.message) {

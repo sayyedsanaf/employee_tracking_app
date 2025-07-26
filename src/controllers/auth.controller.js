@@ -9,6 +9,7 @@ import {
   loginCompanySchema,
 } from "../validations/auth.validation.js";
 import Company from "../models/company.model.js";
+import { uploadBufferToCloudinary } from "../utils/cloudinaryUploader.js";
 
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -17,7 +18,7 @@ const generateToken = (userId) => {
 // @route POST /api/auth/company/register
 export const registerCompany = async (req, res, next) => {
   try {
-    // Handle file upload
+    // Check if the request contains a logo file
     if (!req.file) {
       return res.status(400).json({ success: false, message: "Logo is required" });
     }
@@ -26,7 +27,10 @@ export const registerCompany = async (req, res, next) => {
     const { name, phone, city, state, country, zipCode, email, password } =
       registerCompanySchema.parse(req.body);
 
-    const logo = req.file ? req.file.path : null; // Handle file upload
+    // Upload the logo to Cloudinary    
+    const logo = await uploadBufferToCloudinary(req.file.buffer, {
+      folder: "employeeManagement",
+    });
 
     // Check if the company already exists
     const companyExists = await Company.findOne({ email });
@@ -44,7 +48,8 @@ export const registerCompany = async (req, res, next) => {
       state,
       country,
       zipCode,
-      logo,
+      logo: logo?.secure_url,
+      logoPublicId: logo?.public_id,
       email,
       password: hashedPassword,
     });
@@ -112,7 +117,12 @@ export const loginCompany = async (req, res, next) => {
       success: true,
       message: "Login successful",
       token: generateToken(company._id),
-      company: { _id: company._id, name: company.name, email: company.email, role: company.role },
+      company: {
+        _id: company._id,
+        name: company.name,
+        email: company.email,
+        role: company.role,
+      },
     });
   } catch (err) {
     next(err);
