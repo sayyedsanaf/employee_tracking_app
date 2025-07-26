@@ -27,16 +27,16 @@ export const registerCompany = async (req, res, next) => {
     const { name, phone, city, state, country, zipCode, email, password } =
       registerCompanySchema.parse(req.body);
 
-    // Upload the logo to Cloudinary    
-    const logo = await uploadBufferToCloudinary(req.file.buffer, {
-      folder: "employeeManagement",
-    });
-
     // Check if the company already exists
     const companyExists = await Company.findOne({ email });
     if (companyExists) {
       return res.status(400).json({ success: false, message: "Email already exists" });
     }
+
+    // Upload the logo to Cloudinary
+    const logo = await uploadBufferToCloudinary(req.file.buffer, {
+      folder: "employeeManagement",
+    });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
