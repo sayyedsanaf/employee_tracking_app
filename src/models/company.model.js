@@ -2,14 +2,10 @@ import mongoose from "mongoose";
 
 const companySchema = new mongoose.Schema(
   {
-    name: {
+    companyName: {
       type: String,
       required: true,
       trim: true,
-    },
-    phone: {
-      type: String,
-      required: true,
     },
     city: {
       type: String,
@@ -34,15 +30,15 @@ const companySchema = new mongoose.Schema(
     logo: {
       type: String,
     },
-    email: {
+    plan: {
       type: String,
-      required: true,
-      unique: true,
-      trim: true,
+      default: "free",
+      enum: ["free", "gold", "platinum"],
     },
-    password: {
+    subscriptionStatus: {
       type: String,
-      required: true,
+      default: "active",
+      enum: ["active", "inactive"],
     },
   },
   { timestamps: true }

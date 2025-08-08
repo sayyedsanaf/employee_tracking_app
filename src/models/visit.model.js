@@ -1,33 +1,73 @@
 // models/visit.model.js
 import mongoose from "mongoose";
 
-const visitSchema = new mongoose.Schema({
-  employeeId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Employee",
-    required: true,
-  },
-  assignedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  locationName: String,
-  latitude: Number,
-  longitude: Number,
-  address: String,
-  purpose: String,
-  scheduledAt: Date,
-  status: {
-    type: String,
-    enum: ['assigned', 'completed'],
-    default: 'assigned',
-  },
-  completedAt: Date,
-  locationLogId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Location',
-  },
-}, { timestamps: true });
+const visitSchema = new mongoose.Schema(
+  {
+    employeeId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employee",
+      required: true,
+    },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      required: true,
+    },
+    meetingType: {
+      type: String,
+      enum: ["in-person", "virtual"],
+      required: true,
+    },
+    meetingPurpose: {
+      type: String,
+      required: true,
+    },
+    meetingNotes: {
+      type: String,
+    },
+    meetingDate: {
+      type: String, // "YYYY-MM-DD"
+      required: true,
+    },
+    meetingStartedAt: {
+      type: Date,
+      required: true,
+    },
+    meetingEndedAt: {
+      type: Date,
+      required: true,
+    },
 
-export default mongoose.model("Visit", visitSchema);
+    clientName: {
+      type: String,
+      required: true,
+    },
+    clientPhone: {
+      type: String,
+      required: true,
+    },
+    clientImage: {
+      type: String,
+    },
+    location: {
+      type: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true },
+      },
+      required: true,
+    },
+    selfie: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "started", "completed", "cancelled"],
+      default: "pending",
+    },
+  },
+  { timestamps: true }
+);
+
+const Visit = mongoose.model("Visit", visitSchema);
+export default Visit;

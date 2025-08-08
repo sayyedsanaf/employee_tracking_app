@@ -28,19 +28,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
 
 // Routes
 app.get("/", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Welcome to the Employee Management App API",
-    });
+  res.status(200).json({
+    success: true,
+    message: "Welcome to the Employee Management App API",
+  });
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/locations", locationRoutes);
 app.use("/api/attendance", attendanceRoutes);
-app.use("/api/visit", visitRoutes);
+app.use("/api/visits", visitRoutes);
 app.use("/api/dev", devRoutes);
 
 // Error handler

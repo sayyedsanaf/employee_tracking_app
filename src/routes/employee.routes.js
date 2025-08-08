@@ -8,7 +8,7 @@ import {
   deleteEmployee,
 } from '../controllers/employee.controller.js';
 
-import { protect, authorizeRoles } from '../middlewares/auth.middleware.js';
+import { authorizeRoles, verifyCompany, verifyToken } from '../middlewares/auth.middleware.js';
 import upload from '../middlewares/multer.middleware.js'; // For file uploads
 
 const router = express.Router();
@@ -16,28 +16,30 @@ const router = express.Router();
 // ✅ Create Employee (Admin only, supports file upload)
 router.post(
   '/',
-  protect,
+  verifyToken,
+  verifyCompany,
   authorizeRoles('admin'),
   upload.single('photo'), // multer middleware for file
   createEmployee
 );
 
 // ✅ Get All Employees (Admin only)
-router.get('/', protect, authorizeRoles('admin'), getAllEmployees);
+router.get('/', verifyToken, verifyCompany, authorizeRoles('admin'), getAllEmployees);
 
 // ✅ Get Single Employee by ID (Admin or that employee)
-router.get('/:id', protect, getEmployeeById);
+router.get('/:id', verifyToken, verifyCompany, getEmployeeById);
 
 // ✅ Update Employee (Admin only, supports photo upload)
 router.put(
   '/:id',
-  protect,
+  verifyToken,
+  verifyCompany,
   authorizeRoles('admin'),
   upload.single('photo'),
   updateEmployee
 );
 
 // ✅ Delete Employee (Admin only)
-router.delete('/:id', protect, authorizeRoles('admin'), deleteEmployee);
+router.delete('/:id', verifyToken, verifyCompany, authorizeRoles('admin'), deleteEmployee);
 
 export default router;

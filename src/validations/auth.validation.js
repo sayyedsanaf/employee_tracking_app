@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 export const registerCompanySchema = z.object({
-  name: z.string().min(2),
+  companyName: z.string().min(3),
   email: z.string().email(),
   phone: z.string().min(10).max(15),
   city: z.string().min(2),
@@ -12,6 +12,7 @@ export const registerCompanySchema = z.object({
   logo: z.string().optional(),
   password: z.string().min(6),
 });
+
 export const registerSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),

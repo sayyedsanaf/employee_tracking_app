@@ -7,6 +7,11 @@ const attendanceSchema = new mongoose.Schema(
       ref: "Employee",
       required: true,
     },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      required: true,
+    },
     date: {
       type: Date,
       required: true,
@@ -28,4 +33,5 @@ const attendanceSchema = new mongoose.Schema(
 );
 
 attendanceSchema.index({ employeeId: 1, date: 1 }, { unique: true });
-export default mongoose.model("Attendance", attendanceSchema);
+const Attendance = mongoose.model("Attendance", attendanceSchema);
+export default Attendance;
