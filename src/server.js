@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./utils/db.js";
+import session from "express-session";
 
 // Routes
 import authRoutes from "./routes/auth.routes.js";
@@ -30,8 +31,8 @@ app.use(cors());
 app.use(express.json()); // Parse JSON
 app.use(express.urlencoded({ extended: true })); // Parse form-data
 app.use(
-  express.session({
-    secret: process.env.SESSION_SECRET,
+  session({
+    secret: process.env.SESSION_SECRET || "keyboard cat",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },

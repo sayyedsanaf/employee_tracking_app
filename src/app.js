@@ -29,8 +29,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
-  express.session({
-    secret: process.env.SESSION_SECRET,
+  session({
+    secret: process.env.SESSION_SECRET || "keyboard cat",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
