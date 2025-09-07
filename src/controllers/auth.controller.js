@@ -21,7 +21,7 @@ export const register = async (req, res, next) => {
       registerCompanySchema.parse(req.body);
 
     // Check if the company already exists
-    const companyExists = await Company.findOne({ email });
+    const companyExists = await User.findOne({ email });
     if (companyExists) {
       return res.status(400).json({ success: false, message: "Email already exists" });
     }
