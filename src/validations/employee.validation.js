@@ -9,6 +9,6 @@ export const employeeSchema = z.object({
   email: z.string().email("Invalid email format"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
   salary: z.string().min(1, "Salary is required").regex(/^\d+$/, "Salary must be a valid number"),
-  joiningDate: z.date().optional(),
+  joiningDate: z.string().optional(),
   status: z.enum(["active", "inactive", "terminated"]).default("active"),
 });
